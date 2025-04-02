@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/providers/app_state.dart';
 import 'package:mobile_app/screens/home_screen.dart';
 import 'package:mobile_app/screens/settings_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mobile_app/l10n/app_localizations.dart'; // Create this folder and file
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppState(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,11 +20,29 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
     return MaterialApp(
       title: 'IoT App',
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
-      themeMode: ThemeMode.system, // Or specify light/dark
+      themeMode: appState.currentThemeMode,
+      locale: appState.currentLocale,
+      supportedLocales: const [Locale('en'), Locale('fr')],
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode &&
+              supportedLocale.countryCode == locale?.countryCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first; // Default to English if not supported
+      },
       home: const MainPage(),
     );
   }
@@ -47,11 +74,14 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Things'),
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.things, // Use localized text
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.settings),
+            label: AppLocalizations.of(context)!.settings, // Use localized text
           ),
         ],
         currentIndex: _selectedIndex,

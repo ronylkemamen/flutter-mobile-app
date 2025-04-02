@@ -1,89 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_app/providers/app_state.dart';
+import 'package:mobile_app/l10n/app_localizations.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
-  String _language = 'English';
-  ThemeMode _themeMode = ThemeMode.system;
-  String _temperatureUnit = 'Celsius';
-
-  @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Settings')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.settings!)),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: <Widget>[
           ListTile(
-            title: const Text('Language'),
-            trailing: DropdownButton<String>(
-              value: _language,
-              items:
-                  <String>['English', 'French']
-                      .map(
-                        (String value) => DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        ),
-                      )
-                      .toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _language = newValue!;
-                  // TODO: Implement language change logic
-                });
+            title: Text(AppLocalizations.of(context)!.language!),
+            trailing: DropdownButton<Locale>(
+              value: appState.currentLocale,
+              items: const [
+                DropdownMenuItem(value: Locale('en'), child: Text('English')),
+                DropdownMenuItem(value: Locale('fr'), child: Text('Français')),
+              ],
+              onChanged: (Locale? newValue) {
+                if (newValue != null) {
+                  appState.setLocale(newValue);
+                }
               },
             ),
           ),
           ListTile(
-            title: const Text('Theme'),
+            title: Text(AppLocalizations.of(context)!.theme!),
             trailing: DropdownButton<ThemeMode>(
-              value: _themeMode,
-              items: const <DropdownMenuItem<ThemeMode>>[
-                DropdownMenuItem<ThemeMode>(
+              value: appState.currentThemeMode,
+              items: [
+                DropdownMenuItem(
                   value: ThemeMode.system,
-                  child: Text('System Default'),
+                  child: Text(AppLocalizations.of(context)!.systemDefault!),
                 ),
-                DropdownMenuItem<ThemeMode>(
+                DropdownMenuItem(
                   value: ThemeMode.light,
-                  child: Text('Light'),
+                  child: Text(AppLocalizations.of(context)!.light!),
                 ),
-                DropdownMenuItem<ThemeMode>(
+                DropdownMenuItem(
                   value: ThemeMode.dark,
-                  child: Text('Dark'),
+                  child: Text(AppLocalizations.of(context)!.dark!),
                 ),
               ],
               onChanged: (ThemeMode? newValue) {
-                setState(() {
-                  _themeMode = newValue!;
-                  // TODO: Implement theme change logic (might require a Provider or similar)
-                });
+                if (newValue != null) {
+                  appState.setThemeMode(newValue);
+                }
               },
             ),
           ),
           ListTile(
-            title: const Text('Temperature Unit'),
+            title: Text(AppLocalizations.of(context)!.temperatureUnit!),
             trailing: DropdownButton<String>(
-              value: _temperatureUnit,
-              items:
-                  <String>['Celsius', 'Fahrenheit']
-                      .map(
-                        (String value) => DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        ),
-                      )
-                      .toList(),
+              value: appState.temperatureUnit,
+              items: [
+                DropdownMenuItem(
+                  value: 'Celsius',
+                  child: Text(AppLocalizations.of(context)!.celsius!),
+                ),
+                DropdownMenuItem(
+                  value: 'Fahrenheit',
+                  child: Text(AppLocalizations.of(context)!.fahrenheit!),
+                ),
+              ],
               onChanged: (String? newValue) {
-                setState(() {
-                  _temperatureUnit = newValue!;
-                  // TODO: Implement temperature unit change logic (and save to server attribute)
-                });
+                if (newValue != null) {
+                  appState.setTemperatureUnit(newValue);
+                }
               },
             ),
           ),

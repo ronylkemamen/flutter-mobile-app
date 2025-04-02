@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:mobile_app/providers/app_state.dart';
 
 class TelemetryHistoryScreen extends StatelessWidget {
   final String thingName;
@@ -7,6 +10,9 @@ class TelemetryHistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
+    final currentUnit = appState.temperatureUnit;
+
     // Dummy historical data
     final List<Map<String, String>> _historyData = [
       {'timestamp': '10:00:00', 'value': '23.0 °C'},
@@ -22,14 +28,16 @@ class TelemetryHistoryScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Telemetry History')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.telemetryHistory!),
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'History for: $thingName',
+              '${AppLocalizations.of(context)!.historyFor!} $thingName',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -41,6 +49,67 @@ class TelemetryHistoryScreen extends StatelessWidget {
                 itemCount: _historyData.length,
                 itemBuilder: (context, index) {
                   final dataPoint = _historyData[index];
+                  String displayedValue = dataPoint['value']!;
+                  final temperatureValue = dataPoint['value']!;
+
+                  if (temperatureValue != 'N/A') {
+                    try {
+                      if (currentUnit == 'Fahrenheit' &&
+                          temperatureValue.endsWith(' °C')) {
+                        final celsius = double.parse(
+                          temperatureValue.replaceAll(' °C', ''),
+                        );
+                        final fahrenheit = (celsius * 9 / 5) + 32;
+                        displayedValue = '${fahrenheit.toStringAsFixed(1)} °F';
+                      } else if (currentUnit == 'Celsius' &&
+                          temperatureValue.endsWith(' °F')) {
+                        final fahrenheit = double.parse(
+                          temperatureValue.replaceAll(' °F', ''),
+                        );
+                        final celsius = (fahrenheit - 32) * 5 / 9;
+                        displayedValue = '${celsius.toStringAsFixed(1)} °C';
+                      } else if (currentUnit == 'Fahrenheit' &&
+                          temperatureValue.contains('°C')) {
+                        final celsius = double.parse(
+                          temperatureValue.split('°C')[0].trim(),
+                        );
+                        final fahrenheit = (celsius * 9 / 5) + 32;
+                        displayedValue = '${fahrenheit.toStringAsFixed(1)} °F';
+                      } else if (currentUnit == 'Celsius' &&
+                          temperatureValue.contains('°F')) {
+                        final fahrenheit = double.parse(
+                          temperatureValue.split('°F')[0].trim(),
+                        );
+                        final celsius = (fahrenheit - 32) * 5 / 9;
+                        displayedValue = '${celsius.toStringAsFixed(1)} °C';
+                      } else if (currentUnit == 'Fahrenheit' &&
+                          temperatureValue.isNotEmpty &&
+                          double.tryParse(
+                                temperatureValue.replaceAll('°C', '').trim(),
+                              ) !=
+                              null) {
+                        final celsius = double.parse(
+                          temperatureValue.replaceAll('°C', '').trim(),
+                        );
+                        final fahrenheit = (celsius * 9 / 5) + 32;
+                        displayedValue = '${fahrenheit.toStringAsFixed(1)} °F';
+                      } else if (currentUnit == 'Celsius' &&
+                          temperatureValue.isNotEmpty &&
+                          double.tryParse(
+                                temperatureValue.replaceAll('°F', '').trim(),
+                              ) !=
+                              null) {
+                        final fahrenheit = double.parse(
+                          temperatureValue.replaceAll('°F', '').trim(),
+                        );
+                        final celsius = (fahrenheit - 32) * 5 / 9;
+                        displayedValue = '${celsius.toStringAsFixed(1)} °C';
+                      }
+                    } catch (e) {
+                      print('Error parsing temperature history: $e');
+                    }
+                  }
+
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 4.0),
                     child: Padding(
@@ -49,7 +118,7 @@ class TelemetryHistoryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(dataPoint['timestamp']!),
-                          Text(dataPoint['value']!),
+                          Text(displayedValue), // Use the converted value
                         ],
                       ),
                     ),
@@ -59,14 +128,19 @@ class TelemetryHistoryScreen extends StatelessWidget {
             ),
             if (true) ...[
               const SizedBox(height: 16),
-              const Text(
-                'Historical Telemetry Graph (Placeholder)',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Text(
+                AppLocalizations.of(context)!.historicalTelemetryGraph!,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const Divider(),
-              const SizedBox(
+              SizedBox(
                 height: 200,
-                child: Center(child: Text('Historical Graph will be here')),
+                child: Center(
+                  child: Text(AppLocalizations.of(context)!.graphWillBeHere!),
+                ),
               ),
             ],
           ],
