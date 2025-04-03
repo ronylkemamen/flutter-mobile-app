@@ -16,10 +16,8 @@ class TemperatureSensorDetailsScreen extends StatefulWidget {
 
 class _TemperatureSensorDetailsScreenState
     extends State<TemperatureSensorDetailsScreen> {
-  // Use a language-independent key for refresh rate
   String _refreshRateKey = '5 seconds'; // Default to 5 seconds
 
-  // Map keys to their localized display strings
   Map<String, String> get _refreshRateOptions => {
     'manual': AppLocalizations.of(context)!.manual!,
     '5 seconds': '5 ${AppLocalizations.of(context)!.seconds!}',
@@ -27,7 +25,7 @@ class _TemperatureSensorDetailsScreenState
     '30 seconds': '30 ${AppLocalizations.of(context)!.seconds!}',
   };
 
-  // Dummy data (adapt based on your actual data structure)
+  // Dummy data
   Map<String, String> get _clientAttributes =>
       (widget.thing['clientAttributes'] as Map<String, dynamic>)
           .cast<String, String>() ??
@@ -193,22 +191,20 @@ class _TemperatureSensorDetailsScreenState
                     style: const TextStyle(fontSize: 16),
                   ),
                   DropdownButton<String>(
-                    value: _refreshRateKey, // Use the key as the value
+                    value: _refreshRateKey,
                     items:
                         _refreshRateOptions.entries
                             .map(
                               (entry) => DropdownMenuItem<String>(
-                                value: entry.key, // The key is the value
-                                child: Text(
-                                  entry.value,
-                                ), // The value is the displayed text
+                                value: entry.key,
+                                child: Text(entry.value),
                               ),
                             )
                             .toList(),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         setState(() {
-                          _refreshRateKey = newValue; // Update the key
+                          _refreshRateKey = newValue;
                           // TODO: Implement refresh rate logic using the key
                           print('Refresh rate set to key: $_refreshRateKey');
                         });
@@ -225,7 +221,7 @@ class _TemperatureSensorDetailsScreenState
                     '${AppLocalizations.of(context)!.temperatureUnit}:',
                     style: const TextStyle(fontSize: 16),
                   ),
-                  Text(currentUnit), // Display the selected unit
+                  Text(currentUnit),
                 ],
               ),
               const SizedBox(height: 16),

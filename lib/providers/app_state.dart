@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // For persistent storage
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState with ChangeNotifier {
   Locale _currentLocale = const Locale('en');

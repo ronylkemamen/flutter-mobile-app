@@ -6,12 +6,10 @@ class YourThingDetailsScreen extends StatelessWidget {
   const YourThingDetailsScreen({super.key, required this.thing});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(thing['name'] as String ?? 'Your Thing')),
-      body: const Center(
-        child: Text('Details for Your Thing will be displayed here.'),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(title: Text(thing['name'] as String ?? 'My Thing')),
+    body: const Center(
+      child: Text('Details for Your Thing will be displayed here.'),
+    ),
+  );
 }

@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Updated list of things with type and dummy data
+  // List of things with type and dummy data
   final List<Map<String, dynamic>> _things = [
     {
       'name': 'Temperature Sensor',
@@ -68,9 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return Card(
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
-              leading: _getIconForThingType(
-                thing['type'] as String,
-              ), // Added leading icon
+              leading: _getIconForThingType(thing['type'] as String),
               title: Text(thing['name'] as String),
               subtitle: Text(
                 '${AppLocalizations.of(context)!.type}: ${thing['type']}',

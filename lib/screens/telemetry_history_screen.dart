@@ -118,7 +118,7 @@ class TelemetryHistoryScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(dataPoint['timestamp']!),
-                          Text(displayedValue), // Use the converted value
+                          Text(displayedValue),
                         ],
                       ),
                     ),

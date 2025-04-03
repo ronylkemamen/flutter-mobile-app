@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/providers/app_state.dart';
-import 'package:mobile_app/screens/home_screen.dart';
-import 'package:mobile_app/screens/settings_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:mobile_app/l10n/app_localizations.dart'; // Create this folder and file
+import 'package:mobile_app/providers/app_state.dart'; // Manages application-wide state.
+import 'package:mobile_app/screens/home_screen.dart'; // Displays the list of IoT devices.
+import 'package:mobile_app/screens/settings_screen.dart'; // Allows users to configure app settings.
+import 'package:provider/provider.dart'; // For state management.
+import 'package:flutter_localizations/flutter_localizations.dart'; // For localization.
+import 'package:mobile_app/l10n/app_localizations.dart'; // Provides localized strings.
 
 void main() {
+  // Entry point of the application.
   runApp(
+    // Provides AppState to the entire app.
     ChangeNotifierProvider(
       create: (context) => AppState(),
       child: const MyApp(),
@@ -15,6 +17,7 @@ void main() {
   );
 }
 
+// Root widget of the application.
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -25,8 +28,8 @@ class MyApp extends StatelessWidget {
       title: 'IoT App',
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
       darkTheme: ThemeData.dark(useMaterial3: true),
-      themeMode: appState.currentThemeMode,
-      locale: appState.currentLocale,
+      themeMode: appState.currentThemeMode, // Sets theme based on AppState.
+      locale: appState.currentLocale, // Sets locale based on AppState.
       supportedLocales: const [Locale('en'), Locale('fr')],
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -41,13 +44,14 @@ class MyApp extends StatelessWidget {
             return supportedLocale;
           }
         }
-        return supportedLocales.first; // Default to English if not supported
+        return supportedLocales.first; // Default to English.
       },
-      home: const MainPage(),
+      home: const MainPage(), // Sets the initial screen.
     );
   }
 }
 
+// Main page with bottom navigation.
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
@@ -56,7 +60,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Index of the selected tab.
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
@@ -70,24 +74,22 @@ class _MainPageState extends State<MainPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.home),
-            label: AppLocalizations.of(context)!.things, // Use localized text
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(Icons.settings),
-            label: AppLocalizations.of(context)!.settings, // Use localized text
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+    body: Center(child: _widgetOptions.elementAt(_selectedIndex)),
+    bottomNavigationBar: BottomNavigationBar(
+      items: [
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.home),
+          label: AppLocalizations.of(context)!.things, // Localized label.
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.settings),
+          label: AppLocalizations.of(context)!.settings, // Localized label.
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.blue,
+      onTap: _onItemTapped,
+    ),
+  );
 }
