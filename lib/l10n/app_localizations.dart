@@ -48,6 +48,8 @@ class AppLocalizations {
       'historyFor': 'History for:',
       'historicalTelemetryGraph': 'Historical Telemetry Graph',
       'graphWillBeHere': 'Graph will be here',
+      'online': 'Online',
+      'offline': 'Offline',
     },
     'fr': {
       'all': 'Tous',
@@ -79,6 +81,9 @@ class AppLocalizations {
       'historyFor': 'Historique pour :',
       'historicalTelemetryGraph': 'Graphique Historique de la Télémétrie',
       'graphWillBeHere': 'Le graphique sera ici',
+      'stairs': 'Stairs',
+      'online': 'En ligne',
+      'offline': 'Hors ligne',
     },
   };
 
@@ -183,6 +188,12 @@ class AppLocalizations {
   // Getter for the localized 'graphWillBeHere' string.
   String? get graphWillBeHere =>
       _localizedValues[locale.languageCode]?['graphWillBeHere'];
+
+  // Getter for the localized 'online' string.
+  String? get online => _localizedValues[locale.languageCode]?['online'];
+
+  // Getter for the localized 'offline' string.
+  String? get offline => _localizedValues[locale.languageCode]?['offline'];
 }
 
 // Implementation of the LocalizationsDelegate for AppLocalizations.

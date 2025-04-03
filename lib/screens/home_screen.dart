@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/screens/temperature_sensor_details_screen.dart'; // Displays details for temperature sensor devices.
-import 'package:mobile_app/screens/your_thing_details_screen.dart'; // Displays details for generic "My Thing" devices.
+import 'package:mobile_app/screens/house_lights_details_screen.dart'; // Displays details for light devices.
 import 'package:mobile_app/l10n/app_localizations.dart'; // Provides localized strings for the UI.
 
 // Displays a list of IoT devices with filtering options.
@@ -16,17 +16,24 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Map<String, dynamic>> _things = [
     {
       'name': 'Temperature Sensor',
-      'type': 'Temperature Sensor',
-      'clientAttributes': {'Serial Number': 'TS-001'},
-      'serverAttributes': {'Location': 'Living Room'},
+      'type': 'Sensor',
+      'clientAttributes': {'ID': 'TS-001'},
+      'serverAttributes': {'Temperature Unit': 'Celsius'},
       'telemetryData': {'temperature': '22.5 °C'},
     },
     {
-      'name': 'My Thing',
-      'type': 'My Thing',
-      'clientAttributes': {'ID': 'YD-001'},
+      'name': 'House lights',
+      'type': 'Light',
+      'clientAttributes': {'ID': 'HL-001'},
       'serverAttributes': {'Status': 'Online'},
-      'telemetryData': {'value': '100'},
+      'telemetryData': {
+        'Bedroom 1': 'on',
+        'Bedroom 2': 'off',
+        'Dining Room': 'on',
+        'Living Room 1': 'off',
+        'Living Room 2': 'off',
+        'Stairs': 'off',
+      },
     },
   ];
   String _filterType = 'All'; // Stores the currently selected filter type.
@@ -55,15 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ), // Localized "All" option.
                 ),
                 const PopupMenuItem<String>(
-                  value: 'Temperature Sensor',
+                  value: 'Sensor',
                   child: Text(
-                    'Temperature Sensor',
+                    'Sensor',
                   ), // Option to filter by temperature sensors.
                 ),
                 const PopupMenuItem<String>(
-                  value: 'My Thing',
+                  value: 'Light',
                   child: Text(
-                    'My Thing',
+                    'Light',
                   ), // Option to filter by "My Thing" devices.
                 ),
               ],
@@ -92,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onTap: () {
                 // Navigates to the detailed screen based on the device type.
-                if (thing['type'] == 'Temperature Sensor') {
+                if (thing['type'] == 'Sensor') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -101,12 +108,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               TemperatureSensorDetailsScreen(thing: thing),
                     ),
                   );
-                } else if (thing['type'] == 'My Thing') {
+                } else if (thing['type'] == 'Light') {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => YourThingDetailsScreen(thing: thing),
+                          (context) => HouseLightsDetailsScreen(thing: thing),
                     ),
                   );
                 } else {
@@ -132,10 +139,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // Returns an appropriate icon widget based on the provided device type.
   Widget _getIconForThingType(String type) {
     switch (type) {
-      case 'Temperature Sensor':
+      case 'Sensor':
         return const Icon(Icons.thermostat);
-      case 'My Thing':
-        return const Icon(Icons.home);
+      case 'Light':
+        return const Icon(Icons.light);
       default:
         return const Icon(
           Icons.device_unknown,

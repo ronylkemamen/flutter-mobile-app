@@ -164,31 +164,48 @@ class _TemperatureSensorDetailsScreenState
                 ),
               ),
               const Divider(),
-              // Displays each server attribute with an editable text field.
-              for (var entry in _serverAttributes.entries)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text('${entry.key}:'),
-                      ), // Server attribute name.
-                      Expanded(
-                        child: TextFormField(
-                          initialValue:
-                              entry.value, // Initial value of the attribute.
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (newValue) {
-                            // TODO: Implement saving server attribute
-                            print('Saving ${entry.key} with value: $newValue');
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+              // Displays the temperature unit setting.
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '${AppLocalizations.of(context)!.temperatureUnit}:', // Localized label for temperature unit.
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    Text(currentUnit), // The current temperature unit.
+                  ],
                 ),
+              ),
+              // Displays each server attribute (excluding Temperature Unit) with an editable text field.
+              for (var entry in _serverAttributes.entries)
+                if (entry.key != 'Temperature Unit') // Skip Temperature Unit
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text('${entry.key}:'),
+                        ), // Server attribute name.
+                        Expanded(
+                          child: TextFormField(
+                            initialValue:
+                                entry.value, // Initial value of the attribute.
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (newValue) {
+                              // TODO: Implement saving server attribute
+                              print(
+                                'Saving ${entry.key} with value: $newValue',
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               const SizedBox(height: 16),
               // Section for displaying telemetry data.
               Text(
@@ -254,62 +271,40 @@ class _TemperatureSensorDetailsScreenState
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
-              // Row displaying the current temperature unit.
+              const SizedBox(height: 24),
+              // Button to navigate to the telemetry history screen, now centered and with adjusted styling.
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    '${AppLocalizations.of(context)!.temperatureUnit}:', // Localized label for temperature unit.
-                    style: const TextStyle(fontSize: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => TelemetryHistoryScreen(
+                                thingName:
+                                    widget.thing['name']
+                                        as String, // Passes the device name to the history screen.
+                              ),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 20,
+                      ),
+                      textStyle: const TextStyle(fontSize: 18),
+                    ),
+                    child: Text(
+                      AppLocalizations.of(
+                        context,
+                      )!.viewTelemetryHistory!, // Localized text for the button.
+                    ),
                   ),
-                  Text(currentUnit), // The current temperature unit.
                 ],
               ),
-              const SizedBox(height: 16),
-              // Button to navigate to the telemetry history screen.
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder:
-                          (context) => TelemetryHistoryScreen(
-                            thingName:
-                                widget.thing['name']
-                                    as String, // Passes the device name to the history screen.
-                          ),
-                    ),
-                  );
-                },
-                child: Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.viewTelemetryHistory!, // Localized text for the button.
-                ),
-              ),
-              // Placeholder for a historical telemetry graph.
-              if (true) ...[
-                const SizedBox(height: 16),
-                Text(
-                  AppLocalizations.of(
-                    context,
-                  )!.historicalTelemetryGraph!, // Localized title for the graph section.
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Divider(),
-                SizedBox(
-                  height: 200,
-                  child: Center(
-                    child: Text(
-                      AppLocalizations.of(context)!.graphWillBeHere!,
-                    ), // Localized placeholder text for the graph.
-                  ),
-                ),
-              ],
             ],
           ),
         ),
