@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/l10n/app_localizations.dart';
-import 'package:mobile_app/providers/app_state.dart';
-import 'package:mobile_app/screens/telemetry_history_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:mobile_app/l10n/app_localizations.dart'; // Provides localized strings for the UI.
+import 'package:mobile_app/providers/app_state.dart'; // Provides access to the application's global state.
+import 'package:mobile_app/screens/telemetry_history_screen.dart'; // Navigates to the telemetry history screen.
+import 'package:provider/provider.dart'; // For accessing and listening to changes in the application state.
 
+// Displays the details of a temperature sensor device.
 class TemperatureSensorDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic> thing;
+  final Map<String, dynamic>
+  thing; // The data representing the temperature sensor device.
 
   const TemperatureSensorDetailsScreen({super.key, required this.thing});
 
@@ -16,24 +18,32 @@ class TemperatureSensorDetailsScreen extends StatefulWidget {
 
 class _TemperatureSensorDetailsScreenState
     extends State<TemperatureSensorDetailsScreen> {
-  String _refreshRateKey = '5 seconds'; // Default to 5 seconds
+  String _refreshRateKey =
+      '5 seconds'; // Stores the key for the currently selected refresh rate.
 
+  // Defines the available refresh rate options with their localized labels.
   Map<String, String> get _refreshRateOptions => {
-    'manual': AppLocalizations.of(context)!.manual!,
-    '5 seconds': '5 ${AppLocalizations.of(context)!.seconds!}',
-    '10 seconds': '10 ${AppLocalizations.of(context)!.seconds!}',
-    '30 seconds': '30 ${AppLocalizations.of(context)!.seconds!}',
+    'manual':
+        AppLocalizations.of(context)!.manual!, // Localized "Manual" option.
+    '5 seconds':
+        '5 ${AppLocalizations.of(context)!.seconds!}', // Localized "5 seconds" option.
+    '10 seconds':
+        '10 ${AppLocalizations.of(context)!.seconds!}', // Localized "10 seconds" option.
+    '30 seconds':
+        '30 ${AppLocalizations.of(context)!.seconds!}', // Localized "30 seconds" option.
   };
 
-  // Dummy data
+  // Extracts client attributes from the device data.
   Map<String, String> get _clientAttributes =>
       (widget.thing['clientAttributes'] as Map<String, dynamic>)
           .cast<String, String>() ??
       {};
+  // Extracts server attributes from the device data.
   Map<String, String> get _serverAttributes =>
       (widget.thing['serverAttributes'] as Map<String, dynamic>)
           .cast<String, String>() ??
       {};
+  // Extracts telemetry data from the device data.
   Map<String, String> get _telemetryData =>
       (widget.thing['telemetryData'] as Map<String, dynamic>)
           .cast<String, String>() ??
@@ -42,10 +52,16 @@ class _TemperatureSensorDetailsScreenState
   @override
   Widget build(BuildContext context) => Consumer<AppState>(
     builder: (context, appState, child) {
-      final currentUnit = appState.temperatureUnit;
-      final temperatureValue = _telemetryData['temperature'] ?? 'N/A';
-      String displayedTemperature = temperatureValue;
+      final currentUnit =
+          appState
+              .temperatureUnit; // Retrieves the user's preferred temperature unit.
+      final temperatureValue =
+          _telemetryData['temperature'] ??
+          'N/A'; // Gets the current temperature reading.
+      String displayedTemperature =
+          temperatureValue; // Stores the temperature value to be displayed.
 
+      // Converts the temperature value to the user's preferred unit if necessary.
       if (temperatureValue != 'N/A') {
         try {
           if (currentUnit == 'Fahrenheit' && temperatureValue.endsWith(' °C')) {
@@ -101,53 +117,66 @@ class _TemperatureSensorDetailsScreenState
 
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.thing['name'] as String ?? 'Temperature Sensor'),
+          title: Text(
+            widget.thing['name'] as String ?? 'Temperature Sensor',
+          ), // Displays the device name in the app bar.
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              // Section for displaying client attributes.
               Text(
-                AppLocalizations.of(context)!.clientAttributes!,
+                AppLocalizations.of(
+                  context,
+                )!.clientAttributes!, // Localized title for client attributes.
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(),
+              // Displays each client attribute in a row.
               for (var entry in _clientAttributes.entries)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(entry.key),
+                      Text(entry.key), // Attribute name.
                       Text(
-                        entry.value,
+                        entry.value, // Attribute value.
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ],
                   ),
                 ),
               const SizedBox(height: 16),
+              // Section for displaying and potentially editing server attributes.
               Text(
-                AppLocalizations.of(context)!.serverAttributes!,
+                AppLocalizations.of(
+                  context,
+                )!.serverAttributes!, // Localized title for server attributes.
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(),
+              // Displays each server attribute with an editable text field.
               for (var entry in _serverAttributes.entries)
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
                     children: [
-                      Expanded(child: Text('${entry.key}:')),
+                      Expanded(
+                        child: Text('${entry.key}:'),
+                      ), // Server attribute name.
                       Expanded(
                         child: TextFormField(
-                          initialValue: entry.value,
+                          initialValue:
+                              entry.value, // Initial value of the attribute.
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -161,50 +190,62 @@ class _TemperatureSensorDetailsScreenState
                   ),
                 ),
               const SizedBox(height: 16),
+              // Section for displaying telemetry data.
               Text(
-                AppLocalizations.of(context)!.telemetryData!,
+                AppLocalizations.of(
+                  context,
+                )!.telemetryData!, // Localized title for telemetry data.
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const Divider(),
+              // Displays the current temperature reading.
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(AppLocalizations.of(context)!.temperature!),
                     Text(
-                      displayedTemperature,
+                      AppLocalizations.of(context)!.temperature!,
+                    ), // Localized label for temperature.
+                    Text(
+                      displayedTemperature, // The current temperature value (potentially converted).
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 16),
+              // Row for selecting the refresh rate of the telemetry data.
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${AppLocalizations.of(context)!.refreshRate}:',
+                    '${AppLocalizations.of(context)!.refreshRate}:', // Localized label for refresh rate.
                     style: const TextStyle(fontSize: 16),
                   ),
+                  // Dropdown to select the refresh rate.
                   DropdownButton<String>(
-                    value: _refreshRateKey,
+                    value:
+                        _refreshRateKey, // The currently selected refresh rate key.
                     items:
                         _refreshRateOptions.entries
                             .map(
                               (entry) => DropdownMenuItem<String>(
                                 value: entry.key,
-                                child: Text(entry.value),
+                                child: Text(
+                                  entry.value,
+                                ), // Localized refresh rate option.
                               ),
                             )
                             .toList(),
                     onChanged: (String? newValue) {
                       if (newValue != null) {
                         setState(() {
-                          _refreshRateKey = newValue;
+                          _refreshRateKey =
+                              newValue; // Updates the selected refresh rate key.
                           // TODO: Implement refresh rate logic using the key
                           print('Refresh rate set to key: $_refreshRateKey');
                         });
@@ -214,17 +255,19 @@ class _TemperatureSensorDetailsScreenState
                 ],
               ),
               const SizedBox(height: 16),
+              // Row displaying the current temperature unit.
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${AppLocalizations.of(context)!.temperatureUnit}:',
+                    '${AppLocalizations.of(context)!.temperatureUnit}:', // Localized label for temperature unit.
                     style: const TextStyle(fontSize: 16),
                   ),
-                  Text(currentUnit),
+                  Text(currentUnit), // The current temperature unit.
                 ],
               ),
               const SizedBox(height: 16),
+              // Button to navigate to the telemetry history screen.
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -232,19 +275,26 @@ class _TemperatureSensorDetailsScreenState
                     MaterialPageRoute(
                       builder:
                           (context) => TelemetryHistoryScreen(
-                            thingName: widget.thing['name'] as String,
+                            thingName:
+                                widget.thing['name']
+                                    as String, // Passes the device name to the history screen.
                           ),
                     ),
                   );
                 },
                 child: Text(
-                  AppLocalizations.of(context)!.viewTelemetryHistory!,
+                  AppLocalizations.of(
+                    context,
+                  )!.viewTelemetryHistory!, // Localized text for the button.
                 ),
               ),
+              // Placeholder for a historical telemetry graph.
               if (true) ...[
                 const SizedBox(height: 16),
                 Text(
-                  AppLocalizations.of(context)!.historicalTelemetryGraph!,
+                  AppLocalizations.of(
+                    context,
+                  )!.historicalTelemetryGraph!, // Localized title for the graph section.
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -254,7 +304,9 @@ class _TemperatureSensorDetailsScreenState
                 SizedBox(
                   height: 200,
                   child: Center(
-                    child: Text(AppLocalizations.of(context)!.graphWillBeHere!),
+                    child: Text(
+                      AppLocalizations.of(context)!.graphWillBeHere!,
+                    ), // Localized placeholder text for the graph.
                   ),
                 ),
               ],

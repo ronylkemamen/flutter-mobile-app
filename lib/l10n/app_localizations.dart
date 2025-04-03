@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'dart:async';
+import 'package:flutter_localizations/flutter_localizations.dart'; // Provides the infrastructure for internationalizing Flutter applications.
+import 'dart:async'; // Used for asynchronous operations, although not directly used in this version.
 
+// Provides localized strings for the application based on the current locale.
 class AppLocalizations {
   AppLocalizations(this.locale);
 
-  final Locale locale;
+  final Locale locale; // The current locale of the application.
 
-  static AppLocalizations? of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
+  // Static method to easily access the AppLocalizations instance from the current context.
+  static AppLocalizations? of(BuildContext context) =>
+      Localizations.of<AppLocalizations>(context, AppLocalizations);
 
+  // Constant delegate that provides the AppLocalizations instance.
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 
+  // Stores the localized values for different languages.
   static final Map<String, Map<String, String>> _localizedValues = {
     'en': {
       'all': 'All',
@@ -79,138 +82,131 @@ class AppLocalizations {
     },
   };
 
-  String? get all {
-    return _localizedValues[locale.languageCode]?['all'];
-  }
+  // Getter for the localized 'all' string.
+  String? get all => _localizedValues[locale.languageCode]?['all'];
 
-  String? get type {
-    return _localizedValues[locale.languageCode]?['type'];
-  }
+  // Getter for the localized 'type' string.
+  String? get type => _localizedValues[locale.languageCode]?['type'];
 
-  String? get things {
-    return _localizedValues[locale.languageCode]?['things'];
-  }
+  // Getter for the localized 'things' string.
+  String? get things => _localizedValues[locale.languageCode]?['things'];
 
-  String? get settings {
-    return _localizedValues[locale.languageCode]?['settings'];
-  }
+  // Getter for the localized 'settings' string.
+  String? get settings => _localizedValues[locale.languageCode]?['settings'];
 
-  String? get language {
-    return _localizedValues[locale.languageCode]?['language'];
-  }
+  // Getter for the localized 'language' string.
+  String? get language => _localizedValues[locale.languageCode]?['language'];
 
-  String? get theme {
-    return _localizedValues[locale.languageCode]?['theme'];
-  }
+  // Getter for the localized 'theme' string.
+  String? get theme => _localizedValues[locale.languageCode]?['theme'];
 
-  String? get systemDefault {
-    return _localizedValues[locale.languageCode]?['systemDefault'];
-  }
+  // Getter for the localized 'systemDefault' string.
+  String? get systemDefault =>
+      _localizedValues[locale.languageCode]?['systemDefault'];
 
-  String? get light {
-    return _localizedValues[locale.languageCode]?['light'];
-  }
+  // Getter for the localized 'light' string.
+  String? get light => _localizedValues[locale.languageCode]?['light'];
 
-  String? get dark {
-    return _localizedValues[locale.languageCode]?['dark'];
-  }
+  // Getter for the localized 'dark' string.
+  String? get dark => _localizedValues[locale.languageCode]?['dark'];
 
-  String? get temperatureUnit {
-    return _localizedValues[locale.languageCode]?['temperatureUnit'];
-  }
+  // Getter for the localized 'temperatureUnit' string.
+  String? get temperatureUnit =>
+      _localizedValues[locale.languageCode]?['temperatureUnit'];
 
-  String? get celsius {
-    return _localizedValues[locale.languageCode]?['celsius'];
-  }
+  // Getter for the localized 'celsius' string.
+  String? get celsius => _localizedValues[locale.languageCode]?['celsius'];
 
-  String? get fahrenheit {
-    return _localizedValues[locale.languageCode]?['fahrenheit'];
-  }
+  // Getter for the localized 'fahrenheit' string.
+  String? get fahrenheit =>
+      _localizedValues[locale.languageCode]?['fahrenheit'];
 
-  String? get temperature {
-    return _localizedValues[locale.languageCode]?['temperature'];
-  }
+  // Getter for the localized 'temperature' string.
+  String? get temperature =>
+      _localizedValues[locale.languageCode]?['temperature'];
 
-  String? get location {
-    return _localizedValues[locale.languageCode]?['location'];
-  }
+  // Getter for the localized 'location' string.
+  String? get location => _localizedValues[locale.languageCode]?['location'];
 
-  String? get status {
-    return _localizedValues[locale.languageCode]?['status'];
-  }
+  // Getter for the localized 'status' string.
+  String? get status => _localizedValues[locale.languageCode]?['status'];
 
-  String? get serialNumber {
-    return _localizedValues[locale.languageCode]?['serialNumber'];
-  }
+  // Getter for the localized 'serialNumber' string.
+  String? get serialNumber =>
+      _localizedValues[locale.languageCode]?['serialNumber'];
 
-  String? get id {
-    return _localizedValues[locale.languageCode]?['id'];
-  }
+  // Getter for the localized 'id' string.
+  String? get id => _localizedValues[locale.languageCode]?['id'];
 
-  String? get detailsNotAvailable {
-    return _localizedValues[locale.languageCode]?['detailsNotAvailable'];
-  }
+  // Getter for the localized 'detailsNotAvailable' string.
+  String? get detailsNotAvailable =>
+      _localizedValues[locale.languageCode]?['detailsNotAvailable'];
 
-  String? get clientAttributes {
-    return _localizedValues[locale.languageCode]?['clientAttributes'];
-  }
+  // Getter for the localized 'clientAttributes' string.
+  String? get clientAttributes =>
+      _localizedValues[locale.languageCode]?['clientAttributes'];
 
-  String? get serverAttributes {
-    return _localizedValues[locale.languageCode]?['serverAttributes'];
-  }
+  // Getter for the localized 'serverAttributes' string.
+  String? get serverAttributes =>
+      _localizedValues[locale.languageCode]?['serverAttributes'];
 
-  String? get telemetryData {
-    return _localizedValues[locale.languageCode]?['telemetryData'];
-  }
+  // Getter for the localized 'telemetryData' string.
+  String? get telemetryData =>
+      _localizedValues[locale.languageCode]?['telemetryData'];
 
-  String? get refreshRate {
-    return _localizedValues[locale.languageCode]?['refreshRate'];
-  }
+  // Getter for the localized 'refreshRate' string.
+  String? get refreshRate =>
+      _localizedValues[locale.languageCode]?['refreshRate'];
 
-  String? get manual {
-    return _localizedValues[locale.languageCode]?['manual'];
-  }
+  // Getter for the localized 'manual' string.
+  String? get manual => _localizedValues[locale.languageCode]?['manual'];
 
-  String? get seconds {
-    return _localizedValues[locale.languageCode]?['seconds'];
-  }
+  // Getter for the localized 'seconds' string.
+  String? get seconds => _localizedValues[locale.languageCode]?['seconds'];
 
-  String? get viewTelemetryHistory {
-    return _localizedValues[locale.languageCode]?['viewTelemetryHistory'];
-  }
+  // Getter for the localized 'viewTelemetryHistory' string.
+  String? get viewTelemetryHistory =>
+      _localizedValues[locale.languageCode]?['viewTelemetryHistory'];
 
-  String? get telemetryHistory {
-    return _localizedValues[locale.languageCode]?['telemetryHistory'];
-  }
+  // Getter for the localized 'telemetryHistory' string.
+  String? get telemetryHistory =>
+      _localizedValues[locale.languageCode]?['telemetryHistory'];
 
-  String? get historyFor {
-    return _localizedValues[locale.languageCode]?['historyFor'];
-  }
+  // Getter for the localized 'historyFor' string.
+  String? get historyFor =>
+      _localizedValues[locale.languageCode]?['historyFor'];
 
-  String? get historicalTelemetryGraph {
-    return _localizedValues[locale.languageCode]?['historicalTelemetryGraph'];
-  }
+  // Getter for the localized 'historicalTelemetryGraph' string.
+  String? get historicalTelemetryGraph =>
+      _localizedValues[locale.languageCode]?['historicalTelemetryGraph'];
 
-  String? get graphWillBeHere {
-    return _localizedValues[locale.languageCode]?['graphWillBeHere'];
-  }
+  // Getter for the localized 'graphWillBeHere' string.
+  String? get graphWillBeHere =>
+      _localizedValues[locale.languageCode]?['graphWillBeHere'];
 }
 
+// Implementation of the LocalizationsDelegate for AppLocalizations.
 class _AppLocalizationsDelegate
     extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
+  // Checks if the given locale is supported by this delegate.
   @override
   bool isSupported(Locale locale) {
-    return ['en', 'fr'].contains(locale.languageCode);
+    return [
+      'en',
+      'fr',
+    ].contains(locale.languageCode); // Supports English and French.
   }
 
+  // Loads the AppLocalizations instance for the given locale.
   @override
   Future<AppLocalizations> load(Locale locale) async {
     AppLocalizations localizations = AppLocalizations(locale);
     return localizations;
   }
 
+  // Determines if the delegate should reload the localizations (usually false for static localizations).
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
