@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/l10n/app_localizations.dart';
+import 'package:mobile_app/models/sensor.dart';
 import 'package:mobile_app/providers/app_state.dart';
 import 'package:mobile_app/screens/telemetry_history_screen.dart';
 import 'package:provider/provider.dart';
 
 class TemperatureSensorDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic> thing;
+  final Sensor thing;
 
   const TemperatureSensorDetailsScreen({super.key, required this.thing});
 
@@ -29,15 +30,15 @@ class _TemperatureSensorDetailsScreenState
 
   // Dummy data (adapt based on your actual data structure)
   Map<String, String> get _clientAttributes =>
-      (widget.thing['clientAttributes'] as Map<String, dynamic>)
+      (widget.thing.clientAttributes as Map<String, dynamic>)
           .cast<String, String>() ??
       {};
   Map<String, String> get _serverAttributes =>
-      (widget.thing['serverAttributes'] as Map<String, dynamic>)
+      (widget.thing.clientAttributes as Map<String, dynamic>)
           .cast<String, String>() ??
       {};
   Map<String, String> get _telemetryData =>
-      (widget.thing['telemetryData'] as Map<String, dynamic>)
+      (widget.thing.clientAttributes as Map<String, dynamic>)
           .cast<String, String>() ??
       {};
 
@@ -103,7 +104,7 @@ class _TemperatureSensorDetailsScreenState
 
       return Scaffold(
         appBar: AppBar(
-          title: Text(widget.thing['name'] as String ?? 'Temperature Sensor'),
+          title: Text(widget.thing.name as String ?? 'Temperature Sensor'),
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16.0),
@@ -236,7 +237,7 @@ class _TemperatureSensorDetailsScreenState
                     MaterialPageRoute(
                       builder:
                           (context) => TelemetryHistoryScreen(
-                            thingName: widget.thing['name'] as String,
+                            thingName: widget.thing.name as String,
                           ),
                     ),
                   );
