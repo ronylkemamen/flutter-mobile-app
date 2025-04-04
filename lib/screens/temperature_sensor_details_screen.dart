@@ -39,6 +39,9 @@ class _TemperatureSensorDetailsScreenState
   Map<String, dynamic>? temperature =
       null; // Stores the latest temperature and humidity data fetched from the server.
 
+  // Stores the modified server attributes.
+  final Map<String, String> _updatedServerAttributes = {};
+
   // Fetches the latest temperature data from the server at a set interval.
   Future<void> fetchTemperatureData() async {
     timer = Timer.periodic(Duration(seconds: _refreshRateKey), (timer) async {
@@ -60,6 +63,8 @@ class _TemperatureSensorDetailsScreenState
   void initState() {
     super.initState();
     fetchTemperatureData(); // Starts fetching temperature data when the widget is initialized.
+    // Initialize the map with existing server attributes.
+    _updatedServerAttributes.addAll(widget.thing.serverAttributes);
   }
 
   @override
@@ -103,7 +108,13 @@ class _TemperatureSensorDetailsScreenState
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(entry.key), // Attribute name.
+                    Text(
+                      entry.key == 'Location'
+                          ? AppLocalizations.of(context)!.location!
+                          : entry.key == 'Serial Number'
+                          ? AppLocalizations.of(context)!.serialNumber!
+                          : entry.key, // Attribute name.
+                    ),
                     Text(
                       entry.value, // Attribute value.
                       style: const TextStyle(fontWeight: FontWeight.w500),
@@ -112,7 +123,7 @@ class _TemperatureSensorDetailsScreenState
                 ),
               ),
             const SizedBox(height: 16),
-            // Section for displaying server attributes.
+            // Section for displaying server attributes as editable textboxes.
             Text(
               AppLocalizations.of(
                 context,
@@ -120,21 +131,54 @@ class _TemperatureSensorDetailsScreenState
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const Divider(),
-            // Displays each server attribute in a row.
             for (var entry in widget.thing.serverAttributes.entries)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(entry.key), // Attribute name.
-                    Text(
-                      entry.value, // Attribute value.
-                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    Expanded(
+                      child: Text(
+                        entry.key == 'Location'
+                            ? AppLocalizations.of(context)!.location!
+                            : entry.key == 'Serial Number'
+                            ? AppLocalizations.of(context)!.serialNumber!
+                            : entry.key, // Attribute name.
+                      ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        initialValue: entry.value,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (newValue) {
+                          setState(() {
+                            _updatedServerAttributes[entry.key] = newValue;
+                          });
+                        },
+                      ),
                     ),
                   ],
                 ),
               ),
+            // Button to update server attributes.
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: Implement API call to update server attributes
+                    // Print the updated attributes for now.
+                    _updatedServerAttributes.forEach((key, value) {
+                      print('Updated $key: $value');
+                    });
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.updateServerAttributes!,
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             // Section for displaying telemetry data.
             Text(

@@ -41,6 +41,8 @@ class AppLocalizations {
       'clientAttributes': 'Client Attributes',
       'serverAttributes': 'Server Attributes',
       'telemetryData': 'Telemetry Data',
+      'Location': 'Location',
+      'Serial Number': 'Serial Number',
       'refreshRate': 'Refresh Rate',
       'manual': 'Manual',
       'seconds': 'seconds',
@@ -51,6 +53,7 @@ class AppLocalizations {
       'graphWillBeHere': 'Graph will be here',
       'online': 'Online',
       'offline': 'Offline',
+      'updateServerAttributes': 'Update Server Attributes',
     },
     'fr': {
       'all': 'Tous',
@@ -75,6 +78,8 @@ class AppLocalizations {
       'clientAttributes': 'Attributs Client',
       'serverAttributes': 'Attributs Serveur',
       'telemetryData': 'Données de Télémétrie',
+      'Location': 'Emplacement',
+      'Serial Number': 'Numéro de série',
       'refreshRate': 'Taux de Rafraîchissement',
       'manual': 'Manuel',
       'seconds': 'secondes',
@@ -86,6 +91,7 @@ class AppLocalizations {
       'stairs': 'Stairs',
       'online': 'En ligne',
       'offline': 'Hors ligne',
+      'updateServerAttributes': 'Mettre à jour les Attributs Serveur',
     },
   };
 
@@ -164,6 +170,14 @@ class AppLocalizations {
   String? get telemetryData =>
       _localizedValues[locale.languageCode]?['telemetryData'];
 
+  // Getter for the localized 'Location' string.
+  String? get locationLabel =>
+      _localizedValues[locale.languageCode]?['Location'];
+
+  // Getter for the localized 'Serial Number' string.
+  String? get serialNumberLabel =>
+      _localizedValues[locale.languageCode]?['Serial Number'];
+
   // Getter for the localized 'refreshRate' string.
   String? get refreshRate =>
       _localizedValues[locale.languageCode]?['refreshRate'];
@@ -199,6 +213,10 @@ class AppLocalizations {
 
   // Getter for the localized 'offline' string.
   String? get offline => _localizedValues[locale.languageCode]?['offline'];
+
+  // Getter for the localized 'updateServerAttributes' string.
+  String? get updateServerAttributes =>
+      _localizedValues[locale.languageCode]?['updateServerAttributes'];
 }
 
 // Implementation of the LocalizationsDelegate for AppLocalizations.
