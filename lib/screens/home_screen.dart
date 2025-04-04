@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/models/sensor.dart';
 import 'package:mobile_app/screens/temperature_sensor_details_screen.dart';
-import 'package:mobile_app/screens/your_thing_details_screen.dart';
+import 'package:mobile_app/screens/house_lights_details_screen.dart';
 import 'package:mobile_app/l10n/app_localizations.dart';
+import 'package:mobile_app/screens/your_thing_details_screen.dart';
 import 'package:mobile_app/services/http_services.dart';
 import 'package:mobile_app/utils/constants.dart';
 

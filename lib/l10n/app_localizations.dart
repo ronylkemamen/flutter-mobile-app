@@ -32,6 +32,7 @@ class AppLocalizations {
       'celsius': 'Celsius',
       'fahrenheit': 'Fahrenheit',
       'temperature': 'Temperature',
+      'humidity': 'Humidity',
       'location': 'Location',
       'status': 'Status',
       'serialNumber': 'Serial Number',
@@ -65,6 +66,7 @@ class AppLocalizations {
       'celsius': 'Celsius',
       'fahrenheit': 'Fahrenheit',
       'temperature': 'Température',
+      'humidity': 'Humidité',
       'location': 'Emplacement',
       'status': 'Statut',
       'serialNumber': 'Numéro de série',
@@ -129,6 +131,9 @@ class AppLocalizations {
   // Getter for the localized 'temperature' string.
   String? get temperature =>
       _localizedValues[locale.languageCode]?['temperature'];
+
+  // Getter for the localized 'humidity' string.
+  String? get humidity => _localizedValues[locale.languageCode]?['humidity'];
 
   // Getter for the localized 'location' string.
   String? get location => _localizedValues[locale.languageCode]?['location'];
