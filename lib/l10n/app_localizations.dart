@@ -35,6 +35,7 @@ class AppLocalizations {
       'humidity': 'Humidity',
       'location': 'Location',
       'status': 'Status',
+      'IP Address': 'IP Address',
       'serialNumber': 'Serial Number',
       'id': 'ID',
       'detailsNotAvailable': 'Details not available for this type.',
@@ -54,6 +55,12 @@ class AppLocalizations {
       'online': 'Online',
       'offline': 'Offline',
       'updateServerAttributes': 'Update Server Attributes',
+      'bedroom1': 'Bedroom 1',
+      'bedroom2': 'Bedroom 2',
+      'diningRoom': 'Dining Room',
+      'livingRoom1': 'Living Room 1',
+      'livingRoom2': 'Living Room 2',
+      'stairs': 'Stairs',
     },
     'fr': {
       'all': 'Tous',
@@ -72,6 +79,7 @@ class AppLocalizations {
       'humidity': 'Humidité',
       'location': 'Emplacement',
       'status': 'Statut',
+      'IP Address': 'Adresse IP',
       'serialNumber': 'Numéro de série',
       'id': 'ID',
       'detailsNotAvailable': 'Détails non disponibles pour ce type.',
@@ -92,6 +100,12 @@ class AppLocalizations {
       'online': 'En ligne',
       'offline': 'Hors ligne',
       'updateServerAttributes': 'Mettre à jour les Attributs Serveur',
+      'bedroom1': 'Chambre 1',
+      'bedroom2': 'Chambre 2',
+      'diningRoom': 'Salle à Manger',
+      'livingRoom1': 'Salon 1',
+      'livingRoom2': 'Salon 2',
+      'stairs': 'Escaliers',
     },
   };
 
@@ -146,6 +160,9 @@ class AppLocalizations {
 
   // Getter for the localized 'status' string.
   String? get status => _localizedValues[locale.languageCode]?['status'];
+
+  // Getter for the localized 'IP Address' string.
+  String? get ipAddress => _localizedValues[locale.languageCode]?['IP Address'];
 
   // Getter for the localized 'serialNumber' string.
   String? get serialNumber =>
@@ -217,6 +234,27 @@ class AppLocalizations {
   // Getter for the localized 'updateServerAttributes' string.
   String? get updateServerAttributes =>
       _localizedValues[locale.languageCode]?['updateServerAttributes'];
+
+  // Getter for the localized 'bedroom1' string.
+  String? get bedroom1 => _localizedValues[locale.languageCode]?['bedroom1'];
+
+  // Getter for the localized 'bedroom2' string.
+  String? get bedroom2 => _localizedValues[locale.languageCode]?['bedroom2'];
+
+  // Getter for the localized 'diningRoom' string.
+  String? get diningRoom =>
+      _localizedValues[locale.languageCode]?['diningRoom'];
+
+  // Getter for the localized 'livingRoom1' string.
+  String? get livingRoom1 =>
+      _localizedValues[locale.languageCode]?['livingRoom1'];
+
+  // Getter for the localized 'livingRoom2' string.
+  String? get livingRoom2 =>
+      _localizedValues[locale.languageCode]?['livingRoom2'];
+
+  // Getter for the localized 'stairs' string.
+  String? get stairs => _localizedValues[locale.languageCode]?['stairs'];
 }
 
 // Implementation of the LocalizationsDelegate for AppLocalizations.

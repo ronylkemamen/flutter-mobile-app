@@ -138,9 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder:
-                          (context) => YourThingDetailsScreen(
-                            thing: thing,
-                          ), // Navigates to YourThingDetailsScreen.
+                          (context) =>
+                              HouseLightsDetailsScreen(), // Navigates to HouseLightsDetailsScreen.
                     ),
                   );
                 } else {

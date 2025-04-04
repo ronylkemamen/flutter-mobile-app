@@ -3,10 +3,7 @@ import 'package:mobile_app/l10n/app_localizations.dart'; // Provides localized s
 
 // Displays the details and controls for a house lights device.
 class HouseLightsDetailsScreen extends StatefulWidget {
-  final Map<String, dynamic>
-  thing; // The data representing the house lights device.
-
-  const HouseLightsDetailsScreen({super.key, required this.thing});
+  const HouseLightsDetailsScreen({super.key});
 
   @override
   State<HouseLightsDetailsScreen> createState() =>
@@ -14,34 +11,58 @@ class HouseLightsDetailsScreen extends StatefulWidget {
 }
 
 class _HouseLightsDetailsScreenState extends State<HouseLightsDetailsScreen> {
-  // Extracts client attributes from the device data.
-  Map<String, String> get _clientAttributes =>
-      (widget.thing['clientAttributes'] as Map<String, dynamic>)
-          .cast<String, String>() ??
-      {};
-  // Extracts server attributes from the device data.
-  Map<String, String> get _serverAttributes =>
-      (widget.thing['serverAttributes'] as Map<String, dynamic>)
-          .cast<String, String>() ??
-      {};
-  // Stores the telemetry data for the lights, which will be updated based on user interaction.
+  // Hardcoded client attributes for the house lights.
+  final Map<String, String> _clientAttributes = {'Serial Number': 'HL-001'};
+  // Hardcoded server attributes for the house lights.
+  final Map<String, String> _serverAttributes = {
+    'IP Address': '192.168.1.100',
+    'Status': 'Online',
+  };
+  // Hardcoded telemetry data for the lights.
   late Map<String, String> _telemetryData;
+  // Stores the modified server attributes.
+  final Map<String, String> _updatedServerAttributes = {};
 
   @override
   void initState() {
     super.initState();
-    // Initializes the telemetry data from the widget's data.
-    _telemetryData =
-        (widget.thing['telemetryData'] as Map<String, dynamic>)
-            .cast<String, String>() ??
-        {};
+    // Initializes the telemetry data.
+    _telemetryData = {
+      'bedroom1': 'off',
+      'bedroom2': 'on',
+      'diningRoom': 'off',
+      'livingRoom1': 'on',
+      'livingRoom2': 'off',
+      'stairs': 'on',
+    };
+    // Initialize the map with existing server attributes.
+    _updatedServerAttributes.addAll(_serverAttributes);
+  }
+
+  String _getLocalizedRoomName(String roomName) {
+    switch (roomName) {
+      case 'bedroom1':
+        return AppLocalizations.of(context)!.bedroom1!;
+      case 'bedroom2':
+        return AppLocalizations.of(context)!.bedroom2!;
+      case 'diningRoom':
+        return AppLocalizations.of(context)!.diningRoom!;
+      case 'livingRoom1':
+        return AppLocalizations.of(context)!.livingRoom1!;
+      case 'livingRoom2':
+        return AppLocalizations.of(context)!.livingRoom2!;
+      case 'stairs':
+        return AppLocalizations.of(context)!.stairs!;
+      default:
+        return roomName.toUpperCase(); // Fallback
+    }
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: Text(
-        widget.thing['name'] as String ?? 'House Lights',
+      title: const Text(
+        "Domotic House",
       ), // Displays the device name in the app bar.
     ),
     body: SingleChildScrollView(
@@ -64,7 +85,11 @@ class _HouseLightsDetailsScreenState extends State<HouseLightsDetailsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(entry.key), // Attribute name.
+                  Text(
+                    entry.key == 'Serial Number'
+                        ? AppLocalizations.of(context)!.serialNumber!
+                        : entry.key, // Attribute name.
+                  ),
                   Text(
                     entry.value, // Attribute value.
                     style: const TextStyle(fontWeight: FontWeight.w500),
@@ -74,7 +99,7 @@ class _HouseLightsDetailsScreenState extends State<HouseLightsDetailsScreen> {
             ),
           const SizedBox(height: 16),
 
-          // Section for displaying server attributes.
+          // Section for displaying server attributes as editable textboxes.
           Text(
             AppLocalizations.of(
               context,
@@ -82,29 +107,55 @@ class _HouseLightsDetailsScreenState extends State<HouseLightsDetailsScreen> {
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           const Divider(),
-          // Displays each server attribute in a row.
           for (var entry in _serverAttributes.entries)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    entry.key == 'Status'
-                        ? AppLocalizations.of(context)!.status!
-                        : entry.key,
+                  Expanded(
+                    child: Text(
+                      entry.key == 'Status'
+                          ? AppLocalizations.of(context)!.status!
+                          : entry.key == 'IP Address'
+                          ? AppLocalizations.of(context)!.ipAddress!
+                          : entry.key,
+                    ),
                   ),
-                  Text(
-                    entry.key == 'Status' && entry.value == 'Online'
-                        ? AppLocalizations.of(context)!.online!
-                        : entry.key == 'Status' && entry.value == 'Offline'
-                        ? AppLocalizations.of(context)!.offline!
-                        : entry.value,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  Expanded(
+                    child: TextFormField(
+                      initialValue: entry.value,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (newValue) {
+                        setState(() {
+                          _updatedServerAttributes[entry.key] = newValue;
+                        });
+                      },
+                    ),
                   ),
                 ],
               ),
             ),
+          const SizedBox(height: 16),
+          // Button to update server attributes.
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Print the updated attributes for now.
+                  _updatedServerAttributes.forEach((key, value) {
+                    print('Updated $key: $value');
+                  });
+                  // TODO: Implement API call to update server attributes
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.updateServerAttributes!,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 16),
 
           // Section for displaying and controlling room lights.
@@ -121,8 +172,8 @@ class _HouseLightsDetailsScreenState extends State<HouseLightsDetailsScreen> {
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: ListTile(
                 title: Text(
-                  '${entry.key.toUpperCase()}',
-                ), // Displays the light name in uppercase.
+                  _getLocalizedRoomName(entry.key),
+                ), // Displays the localized light name.
                 trailing: Switch(
                   value:
                       entry.value ==
