@@ -3,7 +3,6 @@ import 'package:mobile_app/models/sensor.dart'; // Defines the Sensor data model
 import 'package:mobile_app/screens/temperature_sensor_details_screen.dart'; // Displays details for temperature sensor devices.
 import 'package:mobile_app/screens/house_lights_details_screen.dart'; // Displays details for house lights devices.
 import 'package:mobile_app/l10n/app_localizations.dart'; // Provides localized strings for the UI.
-import 'package:mobile_app/screens/your_thing_details_screen.dart'; // Displays details for generic "My Thing" devices.
 import 'package:mobile_app/services/http_services.dart'; // Provides functions for making HTTP requests.
 import 'package:mobile_app/utils/constants.dart'; // Contains application-wide constants, including sensor types.
 
