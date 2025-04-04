@@ -13,7 +13,7 @@ Future getSensors() async {
 
     if (response.statusCode == 200) {
       // Si la requête est réussie, affiche la réponse
-      print('Données envoyées avec succès : ${jsonDecode(response.body)}');
+      print('Données recu avec succès : ${jsonDecode(response.body)}');
 
     } else {
       // Si la requête échoue, affiche l'erreur
@@ -25,3 +25,26 @@ Future getSensors() async {
     return [];
   }
 }
+
+Future getLastTemperature() async {
+  try {
+    print("go fetch the temperature");
+    // Envoie les données via une requête POST
+    final response = await http.get(Uri.parse(MOBILE_API_URL + "getlastentry"));
+	
+
+    if (response.statusCode == 200) {
+      // Si la requête est réussie, affiche la réponse
+      print('Données recu avec succès : ${jsonDecode(response.body)}');
+
+    } else {
+      // Si la requête échoue, affiche l'erreur
+      print('Erreur lors de l\'envoi des données : ${response.statusCode}');
+    }
+    return jsonDecode(response.body);
+  } catch (e) {
+    print('Erreur : $e');
+    return [];
+  }
+}
+
