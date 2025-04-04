@@ -24,6 +24,13 @@ class _TemperatureSensorDetailsScreenState
   int _refreshRateKey = 5; // Default to 5 seconds
   late Timer timer;
 
+  // Map keys to their localized display strings
+  Map<String, String> get _refreshRateOptions => {
+    'manual': AppLocalizations.of(context)!.manual!,
+    '5 seconds': '5 ${AppLocalizations.of(context)!.seconds!}',
+    '10 seconds': '10 ${AppLocalizations.of(context)!.seconds!}',
+    '30 seconds': '30 ${AppLocalizations.of(context)!.seconds!}',
+  };
 
   late Map<String, dynamic>? temperature = null;
 
@@ -123,6 +130,19 @@ class _TemperatureSensorDetailsScreenState
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Humidity'),
+                  Text(
+                    temperature!['humidity'].toString() + " C",
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -133,7 +153,7 @@ class _TemperatureSensorDetailsScreenState
                   items: [
                     DropdownMenuItem<String>(
                       value: '30s',
-                      child: Text(_refreshRateKey.toString() + ' seconds'),
+                      child: Text('30 seconds'),
                     ),
                   ],
                   onChanged: (String? newValue) {},
