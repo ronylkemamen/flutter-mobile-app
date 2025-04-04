@@ -24,7 +24,6 @@ class _TemperatureSensorDetailsScreenState
   int _refreshRateKey = 5; // Default to 5 seconds
   late Timer timer;
 
-
   late Map<String, dynamic>? temperature = null;
 
   Future<void> fetchTemperatureData() async {
@@ -38,7 +37,6 @@ class _TemperatureSensorDetailsScreenState
       });
     });
   }
-
 
   @override
   void initState() {
